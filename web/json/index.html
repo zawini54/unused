@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- problem on line 31 -->
+<html>
+	<head>
+		<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script>
+                    var url = "http://slickoo.com/tutorials/json.php";
+    	$(document).ready(get);
+		function get(){
+			$.getJSON(url, function(data){
+				var frag = "";
+				for(var i = 0; i < data.length; i++){
+					frag += "ID: "+data[i]["id"]+"<br>Name: "+data[i]["name"]+"<br>Job: "+data[i]["job"]+"<br><br>";
+				}
+				$("#get").html(frag);
+			});
+			
+			$("#submit-button").on('click', post);
+		}
+		function post(e){
+			e.preventDefault();
+			var name = $('input[name="name"]').val();
+			var job = $('input[name="job"]').val();
+			var obj = {
+				name: name,
+				job: job
+			};
+			$('input[name="name"]').val("");
+                        $('input[name="job"]').val("");
+			$.post(url, obj, function(data){
+                            location.reload(true);//callback is not called
+                        });
+		}
+    	</script>
+	</head>
+	<body>
+		<div id="get"></div>
+		<!--
+			<form action="json.php" method="POST">
+			<label>Name: </label><input type="text" name="name" /><br>
+			<label>Job: </label><input type="text" name="job" /><br>
+			<input type="submit" value="Submit"/>
+		</form>
+-->
+		Name: <input type="text" name="name" /><br>
+		Job: <input type="text" name="job" /> <br>
+		<button id="submit-button">Submit</button>
+ 	</body>
+</html>

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Eclipse
+Comment=A versatile IDE
+Icon=eclipse
+Exec=/opt/eclipse/eclipse
+Path=
+Terminal=false
+StartupNotify=false
+Categories=Development;

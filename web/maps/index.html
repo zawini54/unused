@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapper</title>
+        <style>
+            #mcanvas{
+                width: 500px;
+                height: 500px;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+        <script>
+            var map;
+            var service;
+            var location;
+
+            $(document).ready(function(){
+                //wait for location (HTML5) and call init
+                navigator.geolocation.getCurrentPosition(init); //automatically passess in parameters
+            });
+
+            function init(location){
+                //get position
+                this.location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+                //set map options
+                var mapoptions = {
+                    center: this.location,
+                    zoom: 17,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                //create map
+                map = new google.maps.Map(document.getElementById("mcanvas"), mapoptions);
+                //create current pos marker
+                var marker = new google.maps.Marker({
+                  position: this.location,
+                  map: map,
+                  title: "Current Location"
+                });
+                //initialize places service
+                service = new google.maps.places.PlacesService(map);
+                $('#search').click(search);
+            }
+
+            function search(){
+                var request = {
+                    bounds: map.getBounds(),
+                };
+                service.nearbySearch(request, handler);
+            }
+
+            function handler(results, status){
+                if(status == google.maps.places.PlacesServiceStatus.OK){
+                    console.log(results);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="mcanvas"></div>
+        <button id="search">Search</button>
+    </body>
+</html>
